@@ -277,8 +277,8 @@ RubberBandPitchShifter::RubberBandPitchShifter(int sampleRate, size_t channels) 
     m_currentCrispness(-1),
     m_currentFormant(false),
     m_currentFast(false),
-    m_blockSize(1024),
-    m_reserve(1024),
+    m_blockSize(2048),
+    m_reserve(2048),
     m_minfill(0),
     m_stretcher(new RubberBandStretcher
                 (sampleRate, channels,
