@@ -34,7 +34,7 @@ extern "C" {
 
 /**
  * This is a C-linkage interface to the Rubber Band time stretcher.
- * 
+ *
  * This is a wrapper interface: the primary interface is in C++ and is
  * defined and documented in RubberBandStretcher.h.  The library
  * itself is implemented in C++, and requires C++ standard library
@@ -52,7 +52,7 @@ enum RubberBandOption {
 
     RubberBandOptionStretchElastic       = 0x00000000,
     RubberBandOptionStretchPrecise       = 0x00000010,
-    
+
     RubberBandOptionTransientsCrisp      = 0x00000000,
     RubberBandOptionTransientsMixed      = 0x00000100,
     RubberBandOptionTransientsSmooth     = 0x00000200,
@@ -63,7 +63,7 @@ enum RubberBandOption {
 
     RubberBandOptionPhaseLaminar         = 0x00000000,
     RubberBandOptionPhaseIndependent     = 0x00002000,
-    
+
     RubberBandOptionThreadingAuto        = 0x00000000,
     RubberBandOptionThreadingNever       = 0x00010000,
     RubberBandOptionThreadingAlways      = 0x00020000,

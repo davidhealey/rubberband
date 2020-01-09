@@ -127,7 +127,7 @@ public:
     virtual void inverseInterleaved(const float *R__ complexIn, float *R__ realOut) = 0;
     virtual void inversePolar(const float *R__ magIn, const float *R__ phaseIn, float *R__ realOut) = 0;
     virtual void inverseCepstral(const float *R__ magIn, float *R__ cepOut) = 0;
-};    
+};
 
 namespace FFTs {
 
@@ -138,7 +138,7 @@ class D_IPP : public FFTImpl
 public:
     D_IPP(int size) :
         m_size(size), m_fspec(0), m_dspec(0)
-    { 
+    {
         for (int i = 0; ; ++i) {
             if (m_size & (1 << i)) {
                 m_order = i;
@@ -199,7 +199,7 @@ public:
         m_fbuf = ippsMalloc_8u(bufferSize);
         m_fpacked = ippsMalloc_32f(m_size + 2);
         m_fspare = ippsMalloc_32f(m_size / 2 + 1);
-        ippsFFTInitAlloc_R_32f(&m_fspec, m_order, IPP_FFT_NODIV_BY_ANY, 
+        ippsFFTInitAlloc_R_32f(&m_fspec, m_order, IPP_FFT_NODIV_BY_ANY,
                                ippAlgHintFast);
 #endif
     }
@@ -226,7 +226,7 @@ public:
         m_dbuf = ippsMalloc_8u(bufferSize);
         m_dpacked = ippsMalloc_64f(m_size + 2);
         m_dspare = ippsMalloc_64f(m_size / 2 + 1);
-        ippsFFTInitAlloc_R_64f(&m_dspec, m_order, IPP_FFT_NODIV_BY_ANY, 
+        ippsFFTInitAlloc_R_64f(&m_dspec, m_order, IPP_FFT_NODIV_BY_ANY,
                                ippAlgHintFast);
 #endif
     }
@@ -290,7 +290,7 @@ public:
             re[i] = m_fpacked[index++];
             index++;
         }
-    }        
+    }
 
     void unpackDouble(double *re, double *R__ im) { // re may be equal to m_dpacked
         Profiler profiler("D_IPP::unpackDouble");
@@ -307,7 +307,7 @@ public:
             re[i] = m_dpacked[index++];
             index++;
         }
-    }        
+    }
 
     void forward(const double *R__ realIn, double *R__ realOut, double *R__ imagOut) {
         Profiler profiler("D_IPP::forward [d]");
@@ -401,7 +401,7 @@ public:
         packDouble(m_dspare, 0);
         ippsFFTInv_CCSToR_64f(m_dpacked, cepOut, m_dspec, m_dbuf);
     }
-    
+
     void inverse(const float *R__ realIn, const float *R__ imagIn, float *R__ realOut) {
         Profiler profiler("D_IPP::inverse [f]");
         if (!m_fspec) initFloat();
@@ -461,7 +461,7 @@ public:
         m_size(size), m_fspec(0), m_dspec(0),
         m_fpacked(0), m_fspare(0),
         m_dpacked(0), m_dspare(0)
-    { 
+    {
         for (int i = 0; ; ++i) {
             if (m_size & (1 << i)) {
                 m_order = i;
@@ -531,11 +531,11 @@ public:
     }
 
     void packReal(const float *R__ const re) {
-        // Pack input for forward transform 
+        // Pack input for forward transform
         vDSP_ctoz((DSPComplex *)re, 2, m_fpacked, 1, m_size/2);
     }
     void packComplex(const float *R__ const re, const float *R__ const im) {
-        // Pack input for inverse transform 
+        // Pack input for inverse transform
         if (re) v_copy(m_fpacked->realp, re, m_size/2 + 1);
         else v_zero(m_fpacked->realp, m_size/2 + 1);
         if (im) v_copy(m_fpacked->imagp, im, m_size/2 + 1);
@@ -760,7 +760,7 @@ public:
         vvlog(m_dspare2, m_dspare, &hs1);
         inverse(m_dspare2, 0, cepOut);
     }
-    
+
     void inverse(const float *R__ realIn, const float *R__ imagIn, float *R__ realOut) {
         Profiler profiler("D_VDSP::inverse [f]");
         if (!m_fspec) initFloat();
@@ -828,7 +828,7 @@ public:
     D_MEDIALIB(int size) :
         m_size(size),
         m_dpacked(0), m_fpacked(0)
-    { 
+    {
         for (int i = 0; ; ++i) {
             if (m_size & (1 << i)) {
                 m_order = i;
@@ -935,7 +935,7 @@ public:
             re[i] = m_fpacked[index++];
             index++;
         }
-    }        
+    }
 
     void unpackDouble(double *re, double *R__ im) { // re may be equal to m_dpacked
         int index = 0;
@@ -1085,14 +1085,14 @@ public:
         packDoubleConjugates();
         mlib_SignalIFFT_2_D64_D64C(cepOut, m_dpacked, m_order);
     }
-    
+
     void inverse(const float *R__ realIn, const float *R__ imagIn, float *R__ realOut) {
         Profiler profiler("D_MEDIALIB::inverse [f]");
         if (!m_fpacked) initFloat();
         packFloat(realIn, imagIn);
         mlib_SignalIFFT_2_F32_F32C(realOut, m_fpacked, m_order);
     }
-    
+
     void inverseInterleaved(const float *R__ complexIn, float *R__ realOut) {
         Profiler profiler("D_MEDIALIB::inverseInterleaved [f]");
         if (!m_fpacked) initFloat();
@@ -1168,7 +1168,7 @@ public:
     D_OPENMAX(int size) :
         m_size(size),
         m_packed(0)
-    { 
+    {
         for (int i = 0; ; ++i) {
             if (m_size & (1 << i)) {
                 m_order = i;
@@ -1244,7 +1244,7 @@ public:
             index++;
         }
         v_scale(re, m_size, hs + 1);
-    }        
+    }
 
     void unpackDouble(double *R__ re, double *R__ im) {
         // convert fixed point output for forward transform
@@ -1269,7 +1269,7 @@ public:
         // convert fixed point output for forward transform
         for (int i = 0; i < m_size + 2; ++i) {
             cplx[i] = i2f(m_packed[i]);
-        }            
+        }
         v_scale(cplx, m_size, m_size + 2);
     }
 
@@ -1277,7 +1277,7 @@ public:
         // convert fixed point output for forward transform
         for (int i = 0; i < m_size + 2; ++i) {
             cplx[i] = i2d(m_packed[i]);
-        }            
+        }
         v_scale(cplx, m_size, m_size + 2);
     }
 
@@ -1331,7 +1331,7 @@ public:
         for (int i = 0; i < n; ++i) {
             m_packed[i] = f2i(f[i]);
         }
-    }        
+    }
 
     void convertDouble(const double *R__ d) {
         // convert interleaved input for inverse interleaved transform
@@ -1339,7 +1339,7 @@ public:
         for (int i = 0; i < n; ++i) {
             m_packed[i] = d2i(d[i]);
         }
-    }        
+    }
 
     void unpackFloat(float *R__ re) {
         // convert fixed point output for inverse transform
@@ -1362,7 +1362,7 @@ public:
         omxSP_FFTFwd_RToCCS_S32_Sfs(m_buf, m_packed, m_spec, m_order);
         unpackDouble(realOut, imagOut);
     }
-    
+
     void forwardInterleaved(const double *R__ realIn, double *R__ complexOut) {
         Profiler profiler("D_OPENMAX::forwardInterleaved [d]");
         if (!m_packed) initDouble();
@@ -1485,7 +1485,7 @@ public:
         if (!m_packed) initDouble();
         //!!! implement
     }
-    
+
     void inverse(const float *R__ realIn, const float *R__ imagIn, float *R__ realOut) {
         Profiler profiler("D_OPENMAX::inverse [f]");
         if (!m_packed) initFloat();
@@ -1770,7 +1770,7 @@ public:
 
     void packFloat(const float *R__ re, const float *R__ im) {
         const int hs = m_size/2;
-        fftwf_complex *const R__ fpacked = m_fpacked; 
+        fftwf_complex *const R__ fpacked = m_fpacked;
         for (int i = 0; i <= hs; ++i) {
             fpacked[i][0] = re[i];
         }
@@ -1782,12 +1782,12 @@ public:
             for (int i = 0; i <= hs; ++i) {
                 fpacked[i][1] = 0.f;
             }
-        }                
+        }
     }
 
     void packDouble(const double *R__ re, const double *R__ im) {
         const int hs = m_size/2;
-        fftw_complex *const R__ dpacked = m_dpacked; 
+        fftw_complex *const R__ dpacked = m_dpacked;
         for (int i = 0; i <= hs; ++i) {
             dpacked[i][0] = re[i];
         }
@@ -1812,7 +1812,7 @@ public:
                 im[i] = m_fpacked[i][1];
             }
         }
-    }        
+    }
 
     void unpackDouble(double *R__ re, double *R__ im) {
         const int hs = m_size/2;
@@ -1824,14 +1824,14 @@ public:
                 im[i] = m_dpacked[i][1];
             }
         }
-    }        
+    }
 
     void forward(const double *R__ realIn, double *R__ realOut, double *R__ imagOut) {
         if (!m_dplanf) initDouble();
         const int sz = m_size;
         fft_double_type *const R__ dbuf = m_dbuf;
 #ifndef FFTW_SINGLE_ONLY
-        if (realIn != dbuf) 
+        if (realIn != dbuf)
 #endif
             for (int i = 0; i < sz; ++i) {
                 dbuf[i] = realIn[i];
@@ -1845,7 +1845,7 @@ public:
         const int sz = m_size;
         fft_double_type *const R__ dbuf = m_dbuf;
 #ifndef FFTW_SINGLE_ONLY
-        if (realIn != dbuf) 
+        if (realIn != dbuf)
 #endif
             for (int i = 0; i < sz; ++i) {
                 dbuf[i] = realIn[i];
@@ -1920,7 +1920,7 @@ public:
         fft_float_type *const R__ fbuf = m_fbuf;
         const int sz = m_size;
 #ifndef FFTW_DOUBLE_ONLY
-        if (realIn != fbuf) 
+        if (realIn != fbuf)
 #endif
             for (int i = 0; i < sz; ++i) {
                 fbuf[i] = realIn[i];
@@ -1955,7 +1955,7 @@ public:
         const int sz = m_size;
         fft_double_type *const R__ dbuf = m_dbuf;
 #ifndef FFTW_SINGLE_ONLY
-        if (realOut != dbuf) 
+        if (realOut != dbuf)
 #endif
             for (int i = 0; i < sz; ++i) {
                 realOut[i] = dbuf[i];
@@ -1969,7 +1969,7 @@ public:
         const int sz = m_size;
         fft_double_type *const R__ dbuf = m_dbuf;
 #ifndef FFTW_SINGLE_ONLY
-        if (realOut != dbuf) 
+        if (realOut != dbuf)
 #endif
             for (int i = 0; i < sz; ++i) {
                 realOut[i] = dbuf[i];
@@ -2254,10 +2254,10 @@ public:
     void packFloat(const float *R__ re, const float *R__ im, fft_float_type *target, int n) {
         for (int i = 0; i < n; ++i) target[i*2] = re[i];
         if (im) {
-            for (int i = 0; i < n; ++i) target[i*2+1] = im[i]; 
+            for (int i = 0; i < n; ++i) target[i*2+1] = im[i];
         } else {
             for (int i = 0; i < n; ++i) target[i*2+1] = 0.f;
-        }                
+        }
     }
 
     void packDouble(const double *R__ re, const double *R__ im, fft_double_type *target, int n) {
@@ -2266,7 +2266,7 @@ public:
             for (int i = 0; i < n; ++i) target[i*2+1] = im[i];
         } else {
             for (int i = 0; i < n; ++i) target[i*2+1] = 0.0;
-        }                
+        }
     }
 
     void unpackFloat(const fft_float_type *source, float *R__ re, float *R__ im, int n) {
@@ -2274,14 +2274,14 @@ public:
         if (im) {
             for (int i = 0; i < n; ++i) im[i] = source[i*2+1];
         }
-    }        
+    }
 
     void unpackDouble(const fft_double_type *source, double *R__ re, double *R__ im, int n) {
         for (int i = 0; i < n; ++i) re[i] = source[i*2];
         if (im) {
             for (int i = 0; i < n; ++i) im[i] = source[i*2+1];
         }
-    }        
+    }
 
     template<typename T>
     void mirror(T *R__ cplx, int n) {
@@ -2476,7 +2476,7 @@ class D_KISSFFT : public FFTImpl
 public:
     D_KISSFFT(int size) :
         m_size(size),
-        m_fplanf(0),  
+        m_fplanf(0),
         m_fplani(0)
     {
 #ifdef FIXED_POINT
@@ -2536,7 +2536,7 @@ public:
                 im[i] = m_fpacked[i].i;
             }
         }
-    }        
+    }
 
     void packDouble(const double *R__ re, const double *R__ im) {
         const int hs = m_size/2;
@@ -2564,7 +2564,7 @@ public:
                 im[i] = double(m_fpacked[i].i);
             }
         }
-    }        
+    }
 
     void forward(const double *R__ realIn, double *R__ realOut, double *R__ imagOut) {
 
@@ -2708,7 +2708,7 @@ public:
             cepOut[i] = m_fbuf[i];
         }
     }
-    
+
     void inverse(const float *R__ realIn, const float *R__ imagIn, float *R__ realOut) {
 
         packFloat(realIn, imagIn);
@@ -2761,14 +2761,14 @@ class D_Cross : public FFTImpl
 {
 public:
     D_Cross(int size) : m_size(size), m_table(0) {
-        
+
         m_a = new double[size];
         m_b = new double[size];
         m_c = new double[size];
         m_d = new double[size];
 
         m_table = new int[m_size];
-    
+
         int bits;
         int i, j, k, m;
 
@@ -2778,16 +2778,16 @@ public:
                 break;
             }
         }
-        
+
         for (i = 0; i < m_size; ++i) {
-            
+
             m = i;
-            
+
             for (j = k = 0; j < bits; ++j) {
                 k = (k << 1) | (m & 1);
                 m >>= 1;
             }
-            
+
             m_table[i] = k;
         }
     }
@@ -3153,7 +3153,7 @@ FFT::pickDefaultImplementation()
     if (impls.find("fftw") != impls.end()) best = "fftw";
     if (impls.find("vdsp") != impls.end()) best = "vdsp";
     if (impls.find("ipp") != impls.end()) best = "ipp";
-    
+
     m_implementation = best;
 }
 
@@ -3198,7 +3198,7 @@ FFT::FFT(int size, int debugLevel) :
 #ifdef HAVE_FFTW3
         d = new FFTs::D_FFTW(size);
 #endif
-    } else if (impl == "kissfft") {        
+    } else if (impl == "kissfft") {
 #ifdef USE_KISSFFT
         d = new FFTs::D_KISSFFT(size);
 #endif
@@ -3392,13 +3392,13 @@ FFT::inverseCepstral(const float *R__ magIn, float *R__ cepOut)
 }
 
 void
-FFT::initFloat() 
+FFT::initFloat()
 {
     d->initFloat();
 }
 
 void
-FFT::initDouble() 
+FFT::initDouble()
 {
     d->initDouble();
 }
@@ -3424,7 +3424,7 @@ FFT::tune()
     sizes.push_back(512);
     sizes.push_back(1024);
     sizes.push_back(4096);
-    
+
     for (unsigned int si = 0; si < sizes.size(); ++si) {
 
         int size = sizes[si];
@@ -3435,7 +3435,7 @@ FFT::tune()
         }
 
         FFTImpl *d;
-        
+
 #ifdef HAVE_IPP
         std::cerr << "Constructing new IPP FFT object for size " << size << "..." << std::endl;
         d = new FFTs::D_IPP(size);
@@ -3443,7 +3443,7 @@ FFT::tune()
         d->initDouble();
         candidates[d] = 0;
 #endif
-        
+
 #ifdef HAVE_FFTW3
         os << "Constructing new FFTW3 FFT object for size " << size << "..." << std::endl;
         d = new FFTs::D_FFTW(size);
@@ -3458,7 +3458,7 @@ FFT::tune()
         d->initFloat();
         d->initDouble();
         candidates[d] = 2;
-#endif        
+#endif
 
 #ifdef USE_BUILTIN_FFT
         os << "Constructing new Cross FFT object for size " << size << "..." << std::endl;
@@ -3467,7 +3467,7 @@ FFT::tune()
         d->initDouble();
         candidates[d] = 3;
 #endif
-        
+
 #ifdef HAVE_VDSP
         os << "Constructing new vDSP FFT object for size " << size << "..." << std::endl;
         d = new FFTs::D_VDSP(size);
@@ -3475,7 +3475,7 @@ FFT::tune()
         d->initDouble();
         candidates[d] = 4;
 #endif
-        
+
 #ifdef HAVE_MEDIALIB
         std::cerr << "Constructing new MediaLib FFT object for size " << size << "..." << std::endl;
         d = new FFTs::D_MEDIALIB(size);
@@ -3483,7 +3483,7 @@ FFT::tune()
         d->initDouble();
         candidates[d] = 5;
 #endif
-        
+
 #ifdef HAVE_OPENMAX
         os << "Constructing new OpenMAX FFT object for size " << size << "..." << std::endl;
         d = new FFTs::D_OPENMAX(size);
@@ -3491,7 +3491,7 @@ FFT::tune()
         d->initDouble();
         candidates[d] = 6;
 #endif
-        
+
 #ifdef HAVE_SFFT
         os << "Constructing new SFFT FFT object for size " << size << "..." << std::endl;
         d = new FFTs::D_SFFT(size);
@@ -3502,7 +3502,7 @@ FFT::tune()
 
         os << "CLOCKS_PER_SEC = " << CLOCKS_PER_SEC << std::endl;
         float divisor = float(CLOCKS_PER_SEC) / 1000.f;
-        
+
         os << "Timing order is: ";
         for (std::map<FFTImpl *, int>::iterator ci = candidates.begin();
              ci != candidates.end(); ++ci) {
@@ -3528,7 +3528,7 @@ FFT::tune()
         float *fj = new float[size + 2];
 
         for (int type = 0; type < 16; ++type) {
-    
+
             //!!!
             if ((type > 3 && type < 8) ||
                 (type > 11)) {
@@ -3544,7 +3544,7 @@ FFT::tune()
                     db[i] = drand48() * size;
                     fb[i] = db[i];
                 }
-            } else {    
+            } else {
                 for (int i = 0; i < size; ++i) {
                     da[i] = drand48();
                     fa[i] = da[i];
@@ -3552,7 +3552,7 @@ FFT::tune()
                     fb[i] = db[i];
                 }
             }
-                
+
             for (int i = 0; i < size + 2; ++i) {
                 di[i] = drand48();
                 fi[i] = di[i];
@@ -3591,7 +3591,7 @@ FFT::tune()
                 double mean = 0;
 
                 clock_t start = clock();
-                
+
                 for (int i = 0; i < iterations; ++i) {
 
                     if (i == 0) {
@@ -3654,7 +3654,7 @@ FFT::tune()
 
             wins[low]++;
         }
-        
+
         delete[] fa;
         delete[] fb;
         delete[] fc;

@@ -49,7 +49,7 @@ public:
         setPercentile(percentile);
     }
 
-    ~MovingMedian() { 
+    ~MovingMedian() {
 	deallocate(m_frame);
 	deallocate(m_sorted);
     }
@@ -107,4 +107,3 @@ private:
 }
 
 #endif
-

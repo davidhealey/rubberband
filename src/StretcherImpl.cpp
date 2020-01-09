@@ -290,7 +290,7 @@ RubberBandStretcher::Impl::setPitchScale(double fs)
     }
 
     if (fs == m_pitchScale) return;
-    
+
     bool was1 = (m_pitchScale == 1.f);
     bool rbs = resampleBeforeStretching();
 
@@ -301,7 +301,7 @@ RubberBandStretcher::Impl::setPitchScale(double fs)
     if (!(m_options & OptionPitchHighConsistency) &&
         (was1 || resampleBeforeStretching() != rbs) &&
         m_pitchScale != 1.f) {
-        
+
         // resampling mode has changed
         for (int c = 0; c < int(m_channels); ++c) {
             if (m_channelData[c]->resampler) {
@@ -432,7 +432,7 @@ RubberBandStretcher::Impl::calculateSizes()
     if (m_realtime) {
 
         if (r < 1) {
-            
+
             bool rsb = (m_pitchScale < 1.0 && !resampleBeforeStretching());
             float windowIncrRatio = 4.5;
             if (r == 1.0) windowIncrRatio = 4;
@@ -519,7 +519,7 @@ RubberBandStretcher::Impl::calculateSizes()
     // 4 * m_baseFftSize unless ratio is less than 1/1024.
 
     m_fftSize = windowSize;
-    
+
     if (m_options & OptionSmoothingOn) {
         m_aWindowSize = windowSize * 2;
         m_sWindowSize = windowSize * 2;
@@ -637,7 +637,7 @@ RubberBandStretcher::Impl::configure()
     }
 
     if (windowSizeChanged || outbufSizeChanged) {
-        
+
         for (size_t c = 0; c < m_channelData.size(); ++c) {
             delete m_channelData[c];
         }
@@ -673,13 +673,13 @@ RubberBandStretcher::Impl::configure()
             // rbs is the amount of buffer space we think we'll need
             // for resampling; but allocate a sensible amount in case
             // the pitch scale changes during use
-            size_t rbs = 
+            size_t rbs =
                 lrintf(ceil((m_increment * m_timeRatio * 2) / m_pitchScale));
             if (rbs < m_increment * 16) rbs = m_increment * 16;
             m_channelData[c]->setResampleBufSize(rbs);
         }
     }
-    
+
     // stretchAudioCurve is unused in RT mode; phaseResetAudioCurve,
     // silentAudioCurve and stretchCalculator however are used in all
     // modes
@@ -811,7 +811,7 @@ RubberBandStretcher::Impl::reconfigure()
                 new Resampler(Resampler::FastestTolerable, 1, m_sWindowSize,
                               m_debugLevel);
 
-            size_t rbs = 
+            size_t rbs =
                 lrintf(ceil((m_increment * m_timeRatio * 2) / m_pitchScale));
             if (rbs < m_increment * 16) rbs = m_increment * 16;
             m_channelData[c]->setResampleBufSize(rbs);
@@ -861,7 +861,7 @@ RubberBandStretcher::Impl::setDetectorOption(Options options)
     CompoundAudioCurve::Type dt = CompoundAudioCurve::CompoundDetector;
     if (m_options & OptionDetectorPercussive) dt = CompoundAudioCurve::PercussiveDetector;
     else if (m_options & OptionDetectorSoft) dt = CompoundAudioCurve::SoftDetector;
-    
+
     if (dt == m_detectorType) return;
     m_detectorType = dt;
 
@@ -925,7 +925,7 @@ RubberBandStretcher::Impl::study(const float *const *input, size_t samples, bool
         return;
     }
     m_mode = Studying;
-    
+
     size_t consumed = 0;
 
     ChannelData &cd = *m_channelData[0];
@@ -1158,7 +1158,7 @@ RubberBandStretcher::Impl::calculateStretch()
             m_outputIncrements.push_back(increments[i]);
         }
     }
-    
+
     return;
 }
 
@@ -1167,7 +1167,7 @@ RubberBandStretcher::Impl::setDebugLevel(int level)
 {
     m_debugLevel = level;
     if (m_stretchCalculator) m_stretchCalculator->setDebugLevel(level);
-}	
+}
 
 size_t
 RubberBandStretcher::Impl::getSamplesRequired() const
@@ -1199,16 +1199,16 @@ RubberBandStretcher::Impl::getSamplesRequired() const
 
         if (ws == 0 && reqd == 0) reqd = m_increment;
 
-        // See notes in testInbufReadSpace 
+        // See notes in testInbufReadSpace
 
         if (rs < m_aWindowSize && !cd.draining) {
-            
+
             if (cd.inputSize == -1) {
                 reqdHere = m_aWindowSize - rs;
                 if (reqdHere > reqd) reqd = reqdHere;
                 continue;
             }
-        
+
             if (rs == 0) {
                 reqdHere = m_aWindowSize;
                 if (reqdHere > reqd) reqd = reqdHere;
@@ -1216,9 +1216,9 @@ RubberBandStretcher::Impl::getSamplesRequired() const
             }
         }
     }
-    
+
     return reqd;
-}    
+}
 
 void
 RubberBandStretcher::Impl::process(const float *const *input, size_t samples, bool final)
@@ -1258,13 +1258,13 @@ RubberBandStretcher::Impl::process(const float *const *input, size_t samples, bo
                 m_threadSet.insert(thread);
                 thread->start();
             }
-            
+
             if (m_debugLevel > 0) {
                 cerr << m_channels << " threads created" << endl;
             }
         }
 #endif
-        
+
         m_mode = Processing;
     }
 
@@ -1345,4 +1345,3 @@ RubberBandStretcher::Impl::process(const float *const *input, size_t samples, bo
 
 
 }
-

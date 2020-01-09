@@ -66,4 +66,3 @@ void deallocate(double *ptr)
 #endif
 
 }
-

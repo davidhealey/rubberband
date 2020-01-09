@@ -29,7 +29,7 @@
 
 #include "system/sysutils.h"
 
-namespace RubberBand 
+namespace RubberBand
 {
 
 /**
@@ -132,4 +132,3 @@ protected:
 }
 
 #endif
-

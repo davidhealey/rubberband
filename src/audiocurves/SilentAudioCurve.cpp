@@ -52,7 +52,7 @@ SilentAudioCurve::processFloat(const float *R__ mag, int)
     for (int i = 0; i <= hs; ++i) {
         if (mag[i] > threshold) return 0.f;
     }
-        
+
     return 1.f;
 }
 
@@ -65,9 +65,8 @@ SilentAudioCurve::processDouble(const double *R__ mag, int)
     for (int i = 0; i <= hs; ++i) {
         if (mag[i] > threshold) return 0.f;
     }
-        
+
     return 1.f;
 }
 
 }
-

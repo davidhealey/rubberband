@@ -23,7 +23,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include <limits.h>
 
 #define MAXFACTORS 32
-/* e.g. an fft of length 128 has 4 factors 
+/* e.g. an fft of length 128 has 4 factors
  as far as kissfft is concerned
  4*4*4*2
  */
@@ -51,7 +51,7 @@ struct kiss_fft_state{
 #define SAMP_MAX 2147483647
 #else
 # define FRACBITS 15
-# define SAMPPROD int32_t 
+# define SAMPPROD int32_t
 #define SAMP_MAX 32767
 #endif
 

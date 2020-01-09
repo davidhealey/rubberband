@@ -379,7 +379,7 @@ Java_com_breakfastquay_rubberband_RubberBandStretcher_retrieve(JNIEnv *env, jobj
 {
     RubberBandStretcher *stretcher = getStretcher(env, obj);
     size_t channels = stretcher->getChannelCount();
-    
+
     float **outbuf = allocate_channels<float>(channels, n);
     size_t retrieved = stretcher->retrieve(outbuf, n);
 
@@ -387,8 +387,7 @@ Java_com_breakfastquay_rubberband_RubberBandStretcher_retrieve(JNIEnv *env, jobj
         jfloatArray cdata = (jfloatArray)env->GetObjectArrayElement(output, c);
         env->SetFloatArrayRegion(cdata, offset, retrieved, outbuf[c]);
     }
-    
+
     deallocate_channels(outbuf, channels);
     return retrieved;
 }
-

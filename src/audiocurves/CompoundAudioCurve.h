@@ -45,7 +45,7 @@ public:
         SoftDetector
     };
     virtual void setType(Type); // default is CompoundDetector
-    
+
     virtual void setFftSize(int newSize);
 
     virtual float processFloat(const float *R__ mag, int increment);

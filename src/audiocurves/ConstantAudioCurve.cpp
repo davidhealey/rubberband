@@ -54,4 +54,3 @@ ConstantAudioCurve::processDouble(const double *R__, int)
 }
 
 }
-

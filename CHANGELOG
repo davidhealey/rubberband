@@ -71,7 +71,7 @@ existing entry points have changed).  Code written to use 1.5 is not
 necessarily compatible with 1.4.
 
 
-Changes in Rubber Band v1.4 
+Changes in Rubber Band v1.4
 
  * Fix a hang when faced with some very peculiar stretch factors
  * Fix some incorrect threading condition usage
@@ -97,4 +97,3 @@ Changes in Rubber Band v1.2
    less variation in CPU usage
  * The code is more amenable to compiler auto-vectorization (through
    e.g. gcc --ftree-vectorize).
-

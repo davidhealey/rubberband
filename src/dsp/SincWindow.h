@@ -75,7 +75,7 @@ public:
         m_p = p;
         encache();
     }
-    
+
     inline void cut(T *const R__ dst) const {
         v_multiply(dst, m_cache, m_size);
     }
@@ -134,14 +134,14 @@ protected:
             dst[half+i] = sin(arg) / arg;
         }
     }
-    
+
     void encache() {
         if (!m_cache) {
             m_cache = allocate<T>(m_size);
         }
 
         write(m_cache, m_size, m_p);
-	
+
         m_area = 0;
         for (int i = 0; i < m_size; ++i) {
             m_area += m_cache[i];

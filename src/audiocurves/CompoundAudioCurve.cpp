@@ -125,7 +125,7 @@ CompoundAudioCurve::processFiltering(double percussive, double hf)
     }
 
     double rv = 0.f;
-    
+
     double hfDeriv = hf - m_lastHf;
 
     m_hfFilter->push(hf);
@@ -137,7 +137,7 @@ CompoundAudioCurve::processFiltering(double percussive, double hf)
     m_lastHf = hf;
 
     double result = 0.f;
-    
+
     double hfExcess = hf - hfFiltered;
 
     if (hfExcess > 0.0) {
@@ -164,4 +164,3 @@ CompoundAudioCurve::processFiltering(double percussive, double hf)
 
 
 }
-

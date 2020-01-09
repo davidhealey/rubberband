@@ -105,7 +105,7 @@ T *allocate(size_t count)
 #endif
     }
 #else /* !HAVE_POSIX_MEMALIGN */
-    
+
 #ifdef USE_OWN_ALIGNED_MALLOC
 #pragma message("Rolling own aligned malloc: this is unlikely to perform as well as the alternatives")
 
@@ -156,7 +156,7 @@ template <>
 double *allocate(size_t count);
 
 #endif
-	
+
 template <typename T>
 T *allocate_and_zero(size_t count)
 {
@@ -169,7 +169,7 @@ template <typename T>
 void deallocate(T *ptr)
 {
     if (!ptr) return;
-    
+
 #ifdef MALLOC_IS_ALIGNED
     free((void *)ptr);
 #else /* !MALLOC_IS_ALIGNED */
@@ -181,7 +181,7 @@ void deallocate(T *ptr)
 #ifdef HAVE_POSIX_MEMALIGN
     free((void *)ptr);
 #else /* !HAVE_POSIX_MEMALIGN */
-    
+
 #ifdef USE_OWN_ALIGNED_MALLOC
     free(((void **)ptr)[-1]);
 #else /* !USE_OWN_ALIGNED_MALLOC */
@@ -204,7 +204,7 @@ void deallocate(double *);
 
 #endif
 
-/// Reallocate preserving contents but leaving additional memory uninitialised	
+/// Reallocate preserving contents but leaving additional memory uninitialised
 template <typename T>
 T *reallocate(T *ptr, size_t oldcount, size_t count)
 {
@@ -224,8 +224,8 @@ T *reallocate_and_zero(T *ptr, size_t oldcount, size_t count)
     v_zero(ptr, count);
     return ptr;
 }
-	
-/// Reallocate preserving contents and zeroing any additional memory	
+
+/// Reallocate preserving contents and zeroing any additional memory
 template <typename T>
 T *reallocate_and_zero_extension(T *ptr, size_t oldcount, size_t count)
 {
@@ -243,7 +243,7 @@ T **allocate_channels(size_t channels, size_t count)
     }
     return ptr;
 }
-	
+
 template <typename T>
 T **allocate_and_zero_channels(size_t channels, size_t count)
 {
@@ -263,7 +263,7 @@ void deallocate_channels(T **ptr, size_t channels)
     }
     deallocate<T *>(ptr);
 }
-	
+
 template <typename T>
 T **reallocate_channels(T **ptr,
                         size_t oldchannels, size_t oldcount,
@@ -272,11 +272,11 @@ T **reallocate_channels(T **ptr,
     T **newptr = allocate_channels<T>(channels, count);
     if (oldcount && ptr) {
         v_copy_channels(newptr, ptr, channels, oldcount < count ? oldcount : count);
-    } 
+    }
     if (ptr) deallocate_channels<T>(ptr, channels);
     return newptr;
 }
-	
+
 template <typename T>
 T **reallocate_and_zero_extend_channels(T **ptr,
                                         size_t oldchannels, size_t oldcount,
@@ -285,7 +285,7 @@ T **reallocate_and_zero_extend_channels(T **ptr,
     T **newptr = allocate_and_zero_channels<T>(channels, count);
     if (oldcount && ptr) {
         v_copy_channels(newptr, ptr, channels, oldcount < count ? oldcount : count);
-    } 
+    }
     if (ptr) deallocate_channels<T>(ptr, channels);
     return newptr;
 }
@@ -304,4 +304,3 @@ private:
 }
 
 #endif
-

@@ -73,7 +73,7 @@ SpectralDifferenceAudioCurve::processFloat(const float *R__ mag, int increment)
     v_subtract(m_mag, m_tmpbuf, hs1);
     v_abs(m_mag, hs1);
     v_sqrt(m_mag, hs1);
-    
+
     for (int i = 0; i < hs1; ++i) {
         result += m_mag[i];
     }
@@ -94,7 +94,7 @@ SpectralDifferenceAudioCurve::processDouble(const double *R__ mag, int increment
     v_subtract(m_mag, m_tmpbuf, hs1);
     v_abs(m_mag, hs1);
     v_sqrt(m_mag, hs1);
-    
+
     for (int i = 0; i < hs1; ++i) {
         result += m_mag[i];
     }
@@ -104,4 +104,3 @@ SpectralDifferenceAudioCurve::processDouble(const double *R__ mag, int increment
 }
 
 }
-

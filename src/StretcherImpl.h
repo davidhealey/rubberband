@@ -60,7 +60,7 @@ public:
     Impl(size_t sampleRate, size_t channels, Options options,
          double initialTimeRatio, double initialPitchScale);
     ~Impl();
-    
+
     void reset();
     void setTimeRatio(double ratio);
     void setPitchScale(double scale);
@@ -102,7 +102,7 @@ public:
     size_t getChannelCount() const {
         return m_channels;
     }
-    
+
     void calculateStretch();
 
     void setDebugLevel(int level);
@@ -136,7 +136,7 @@ protected:
     void reconfigure();
 
     double getEffectiveRatio() const;
-    
+
     size_t roundUp(size_t value); // to next power of two
 
     template <typename T, typename S>
@@ -161,7 +161,7 @@ protected:
     }
 
     bool resampleBeforeStretching() const;
-    
+
     double m_timeRatio;
     double m_pitchScale;
 
@@ -176,7 +176,7 @@ protected:
     size_t m_maxProcessSize;
     size_t m_expectedInputDuration;
 
-#ifndef NO_THREADING    
+#ifndef NO_THREADING
     bool m_threaded;
 #endif
 
@@ -202,7 +202,7 @@ protected:
 
 #ifndef NO_THREADING
     Condition m_spaceAvailable;
-    
+
     class ProcessThread : public Thread
     {
     public:
@@ -220,7 +220,7 @@ protected:
     mutable Mutex m_threadSetMutex;
     typedef std::set<ProcessThread *> ThreadSet;
     ThreadSet m_threadSet;
-    
+
 #if defined HAVE_IPP && !defined USE_SPEEX
     // Exasperatingly, the IPP polyphase resampler does not appear to
     // be thread-safe as advertised -- a good reason to prefer the
@@ -236,7 +236,7 @@ protected:
     std::vector<bool> m_silence;
     int m_silentHistory;
 
-    class ChannelData; 
+    class ChannelData;
     std::vector<ChannelData *> m_channelData;
 
     std::vector<int> m_outputIncrements;

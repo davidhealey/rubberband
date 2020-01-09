@@ -162,7 +162,7 @@ Profiler::getReport()
 
         WorstCallMap::const_iterator k = m_worstCalls.find(*i);
         if (k == m_worstCalls.end()) continue;
-        
+
         snprintf(buffer, buflen, "\tWorst:\t%f ms/call\n", k->second);
         report += buffer;
     }
@@ -210,7 +210,7 @@ Profiler::end()
 
     m_ended = true;
 }
- 
+
 #else /* NO_TIMING */
 
 #ifndef NO_TIMING_COMPLETE_NOOP

@@ -298,7 +298,7 @@ int main(int argc, char **argv)
     }
 
     std::map<size_t, size_t> mapping;
-    
+
     if (mapfile != "") {
         std::ifstream ifile(mapfile.c_str());
         if (!ifile.is_open()) {
@@ -375,7 +375,7 @@ int main(int argc, char **argv)
 	     << sf_strerror(sndfileOut) << endl;
 	return 1;
     }
-    
+
     int ibs = 1024;
     size_t channels = sfinfo.channels;
 
@@ -466,7 +466,7 @@ int main(int argc, char **argv)
             int count = -1;
 
             if ((count = sf_readf_float(sndfile, fbuf, ibs)) <= 0) break;
-        
+
             for (size_t c = 0; c < channels; ++c) {
                 for (int i = 0; i < count; ++i) {
                     float value = fbuf[i * channels + c];
@@ -502,7 +502,7 @@ int main(int argc, char **argv)
     if (!mapping.empty()) {
         ts.setKeyFrameMap(mapping);
     }
-    
+
     size_t countIn = 0, countOut = 0;
 
     while (frame < sfinfo.frames) {
@@ -510,7 +510,7 @@ int main(int argc, char **argv)
         int count = -1;
 
 	if ((count = sf_readf_float(sndfile, fbuf, ibs)) < 0) break;
-        
+
         countIn += count;
 
         for (size_t c = 0; c < channels; ++c) {
@@ -628,14 +628,14 @@ int main(int argc, char **argv)
 #endif
         timeval etv;
         (void)gettimeofday(&etv, 0);
-        
+
         etv.tv_sec -= tv.tv_sec;
         if (etv.tv_usec < tv.tv_usec) {
             etv.tv_usec += 1000000;
             etv.tv_sec -= 1;
         }
         etv.tv_usec -= tv.tv_usec;
-        
+
         double sec = double(etv.tv_sec) + (double(etv.tv_usec) / 1000000.0);
         cerr << "elapsed time: " << sec << " sec, in frames/sec: " << countIn/sec << ", out frames/sec: " << countOut/sec << endl;
     }
@@ -644,5 +644,3 @@ int main(int argc, char **argv)
 
     return 0;
 }
-
-

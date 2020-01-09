@@ -111,4 +111,3 @@ PercussiveAudioCurve::processDouble(const double *R__ mag, int increment)
 
 
 }
-
