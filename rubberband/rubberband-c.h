@@ -3,7 +3,7 @@
 /*
     Rubber Band Library
     An audio time-stretching and pitch-shifting library.
-    Copyright 2007-2018 Particular Programs Ltd.
+    Copyright 2007-2020 Particular Programs Ltd.
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License as
@@ -78,8 +78,8 @@ enum RubberBandOption {
     RubberBandOptionFormantShifted       = 0x00000000,
     RubberBandOptionFormantPreserved     = 0x01000000,
 
-    RubberBandOptionPitchHighQuality     = 0x00000000,
-    RubberBandOptionPitchHighSpeed       = 0x02000000,
+    RubberBandOptionPitchHighSpeed       = 0x00000000,
+    RubberBandOptionPitchHighQuality     = 0x02000000,
     RubberBandOptionPitchHighConsistency = 0x04000000,
 
     RubberBandOptionChannelsApart        = 0x00000000,
