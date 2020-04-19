@@ -31,6 +31,16 @@ AC_ARG_ENABLE(ladspa,
 )
 AC_SUBST(WITH_LADSPA)
 
+AC_ARG_ENABLE(lv2,
+  [  --disable-lv2        disable compilation of LV2 plugin],
+  [case "${enableval}" in
+     yes | no ) WITH_LV2="${enableval}" ;;
+     *) AC_MSG_ERROR(bad value ${enableval} for --disable-lv2) ;;
+   esac],
+  [WITH_LV2="yes"]
+)
+AC_SUBST(WITH_LV2)
+
 AC_CONFIG_SRCDIR(src/StretcherImpl.h)
 AC_PROG_CXX
 AC_PROG_CC
@@ -54,6 +64,11 @@ AC_SUBST(FFTW_LIBS)
 if test "x$WITH_LADSPA" = "xyes"; then
   AC_CHECK_HEADERS(ladspa.h)
 fi
+
+if test "x$WITH_LV2" = "xyes"; then
+  AC_CHECK_HEADERS(lv2.h)
+fi
+
 AC_CHECK_HEADERS(pthread.h)
 
 if test "x$WITH_VAMP" = "xyes"; then

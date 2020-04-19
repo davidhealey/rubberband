@@ -649,6 +649,7 @@ LDFLAGS
 CXXFLAGS
 CXX
 WITH_LADSPA
+WITH_LV2
 WITH_VAMP
 WITH_PROGRAMS
 target_alias
@@ -695,6 +696,7 @@ enable_option_checking
 enable_programs
 enable_vamp
 enable_ladspa
+enable_lv2
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1331,6 +1333,7 @@ Optional Features:
   --disable-programs      disable compilation of programs
   --disable-vamp          disable compilation of Vamp plugin
   --disable-ladspa        disable compilation of LADSPA plugin
+  --disable-lv2           disable compilation of LV2 plugin
 
 Some influential environment variables:
   CXX         C++ compiler command
@@ -2105,7 +2108,16 @@ else
 
 fi
 
+# Check whether --enable-lv2 was given.
+if test "${enable_lv2+set}" = set; then :
+  enableval=$enable_lv2; case "${enableval}" in
+     yes | no ) WITH_LV2="${enableval}" ;;
+     *) as_fn_error $? "bad value ${enableval} for --disable-lv2" "$LINENO" 5 ;;
+   esac
+else
+  WITH_LV2="yes"
 
+fi
 
 
 ac_ext=cpp
@@ -4195,6 +4207,22 @@ fi
 done
 
 fi
+
+if test "x$WITH_LV2" = "xyes"; then
+  for ac_header in lv2.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "lv2.h" "ac_cv_header_lv2_h" "$ac_includes_default"
+if test "x$ac_cv_header_lv2_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LV2_H 1
+_ACEOF
+
+fi
+
+done
+
+fi
+
 for ac_header in pthread.h
 do :
   ac_fn_c_check_header_mongrel "$LINENO" "pthread.h" "ac_cv_header_pthread_h" "$ac_includes_default"
